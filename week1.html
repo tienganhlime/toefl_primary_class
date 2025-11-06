@@ -78,8 +78,8 @@
                 </div>
             </div>
 
-            <button onclick="
-()" 
+           <button onclick="startTest()"
+
                 class="w-full mt-6 bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-lg transition duration-300 text-lg shadow-lg">
                 BẮT ĐẦU LÀM BÀI
             </button>
@@ -445,9 +445,21 @@ function init() {
 
 async function verifyStudentCode(studentCode) {
     try {
-        const response = await fetch(GOOGLE_SCRIPT_URL + '?action=verify&code=' + studentCode);
+        const url = `${GOOGLE_SCRIPT_URL}?action=verify&code=${encodeURIComponent(studentCode)}`;
+        
+        const response = await fetch(url, {
+            method: 'GET',
+        });
+        
+        if (!response.ok) {
+            console.error('HTTP Error:', response.status);
+            return { status: 'error', exists: false };
+        }
+        
         const result = await response.json();
+        console.log('Verify result:', result);
         return result;
+        
     } catch (error) {
         console.error('Lỗi khi kiểm tra mã:', error);
         return { status: 'error', exists: false };
@@ -469,6 +481,13 @@ async function startTest() {
     
     // Hiển thị loading
     const startBtn = document.querySelector('button[onclick="startTest()"]');
+    
+    if (!startBtn) {
+        console.error('Không tìm thấy button!');
+        alert('Lỗi hệ thống. Vui lòng tải lại trang!');
+        return;
+    }
+    
     const originalText = startBtn.innerHTML;
     startBtn.disabled = true;
     startBtn.innerHTML = `
@@ -481,11 +500,13 @@ async function startTest() {
     // Kiểm tra mã học sinh
     const verifyResult = await verifyStudentCode(code);
     
-    if (!verifyResult.exists) {
+    console.log('Kết quả kiểm tra:', verifyResult);
+    
+    // Kiểm tra kết quả
+    if (verifyResult.status === 'error' || !verifyResult.exists) {
         startBtn.disabled = false;
         startBtn.innerHTML = originalText;
         
-        // Hiển thị thông báo lỗi
         alert('⚠️ MÃ HỌC SINH KHÔNG TỒN TẠI!\n\nVui lòng liên hệ Hotline: 0976222792 để nhận mã học sinh.');
         return;
     }
