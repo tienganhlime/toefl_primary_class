@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIME - READING TEST WEEK 1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 50%, #A5D6A7 100%);
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #16a34a;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Màn hình nhập thông tin -->
+<div id="infoScreen" class="min-h-screen p-4 fade-in">
+    <div class="max-w-2xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 mt-8">
+            <div class="text-center mb-8">
+                <img src="https://gofirst.pro/images/uploads/62/baseimg/logo_16541442053.png" 
+                     alt="LIME Logo" 
+                     class="w-32 h-32 mx-auto mb-4 object-contain">
+                <h1 class="text-4xl font-bold text-green-700 mb-2">Trung Tâm Tiếng Anh LIME</h1>
+                <p class="text-green-600 text-lg">Hotline: 0976222792</p>
+                <div class="mt-4 h-1 w-32 bg-green-500 mx-auto rounded"></div>
+            </div>
+            
+            <div class="bg-green-50 rounded-xl p-6 mb-6">
+                <h2 class="text-2xl font-bold text-green-800 mb-4" id="testTitle">READING TEST - WEEK 1</h2>
+                <div class="space-y-2 text-green-700">
+                    <p>📝 Số câu hỏi: <span id="totalQuestions">37</span> câu</p>
+                    <p>⏰ Thời gian: <span id="testDuration">30</span> phút</p>
+                    <p>✅ Làm bài trực tuyến, chấm điểm tự động</p>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-green-800 font-semibold mb-2">Mã học sinh *</label>
+                    <input type="text" id="studentCode" 
+                        class="w-full px-4 py-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:outline-none"
+                        placeholder="Ví dụ: HS001">
+                    <p class="text-sm text-gray-600 mt-1">💡 Nếu chưa có mã, hãy liên hệ giáo viên để được cấp mã</p>
+                </div>
+            </div>
+
+            <button onclick="startTest()" 
+                class="w-full mt-6 bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-lg transition duration-300 text-lg shadow-lg">
+                BẮT ĐẦU LÀM BÀI
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Màn hình làm bài -->
+<div id="testScreen" class="hidden min-h-screen p-4">
+    <div class="max-w-5xl mx-auto">
+        <!-- Header sticky -->
+        <div class="bg-white rounded-2xl shadow-2xl p-6 mb-6 sticky top-4 z-10">
+            <div class="flex justify-between items-center flex-wrap gap-4">
+                <div class="flex items-center gap-3">
+                    <img src="https://gofirst.pro/images/uploads/62/baseimg/logo_16541442053.png" 
+                         alt="LIME Logo" 
+                         class="w-12 h-12 object-contain">                
+                    <div>
+                        <h1 class="text-2xl font-bold text-green-700">LIME</h1>
+                        <p class="text-green-600 text-sm" id="headerStudentCode"></p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="flex items-center gap-2 bg-green-100 px-4 py-2 rounded-lg">
+                        <svg class="w-6 h-6" id="clockIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span id="timer" class="text-2xl font-bold text-green-600">30:00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <div class="flex justify-between text-sm text-gray-600 mb-1">
+                    <span>Tiến độ: <span id="progress">0</span>/<span id="totalQuestionsDisplay">37</span> câu</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-3">
+                    <div id="progressBar" class="bg-green-600 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nội dung bài test -->
+        <div class="bg-white rounded-2xl shadow-2xl p-8">
+            <h2 class="text-3xl font-bold text-green-800 mb-6 text-center" id="testTitleHeader">READING TEST - WEEK 1</h2>
+            
+            <div id="questionsContainer" class="space-y-8">
+                <!-- Questions will be inserted here by JavaScript -->
+            </div>
+
+            <div class="mt-8 pt-6 border-t-2 border-green-200">
+                <button onclick="submitTest()" id="submitBtn"
+                    class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-lg transition duration-300 text-xl shadow-lg flex items-center justify-center gap-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    NỘP BÀI
+                </button>
+                
+                <div id="warningBox" class="hidden mt-4 p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg flex items-start gap-2">
+                    <svg class="w-5 h-5 text-yellow-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                    <p class="text-yellow-800 text-sm">
+                        Bạn còn <span id="unansweredCount">0</span> câu chưa trả lời. Hãy kiểm tra lại trước khi nộp bài!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Màn hình kết quả -->
+<div id="resultScreen" class="hidden min-h-screen p-4">
+    <div class="max-w-3xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 mt-8 fade-in">
+            <div class="text-center mb-6">
+                <img src="https://gofirst.pro/images/uploads/62/baseimg/logo_16541442053.png" 
+                     alt="LIME Logo" 
+                     class="w-32 h-32 mx-auto mb-4 object-contain">
+                <h1 class="text-3xl font-bold text-green-700 mb-2">Trung Tâm Tiếng Anh LIME</h1>
+                <p class="text-green-600">Hotline: 0976222792</p>
+            </div>
+
+            <div class="text-center mb-8">
+                <svg class="w-24 h-24 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <h2 class="text-3xl font-bold text-green-800 mb-4">Nộp bài thành công!</h2>
+                <p class="text-xl text-gray-700 mb-2">Kết quả đã được ghi nhận</p>
+            </div>
+
+            <div class="bg-green-50 rounded-xl p-6 mb-6 border-2 border-green-200">
+                <div class="text-center space-y-3">
+                    <p class="text-lg text-gray-700">📊 Điểm số: <span id="resultScore" class="font-bold text-green-700"></span></p>
+                    <p class="text-lg text-gray-700">✅ Số câu đúng: <span id="resultCorrect" class="font-bold text-green-700"></span></p>
+                    <p class="text-lg text-gray-700">⏰ Thời gian làm bài: <span id="resultTime" class="font-bold text-green-700"></span></p>
+                </div>
+            </div>
+
+            <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-6 mb-6">
+                <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <div>
+                        <h3 class="font-bold text-blue-800 mb-2">📝 Lưu ý:</h3>
+                        <p class="text-blue-700">
+                            Kết quả đã được lưu vào hệ thống. Giáo viên sẽ xem xét và phản hồi trong buổi học tới.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="location.reload()" 
+                class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-lg transition duration-300 text-lg shadow-lg">
+                Về trang chủ
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ========== CẤU HÌNH - ĐIỀN VÀO ĐÂY ==========
+
+// 1. URL Google Apps Script
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzV_Y-mHTxjOpJPiQizsCMP_ZZ7Y1VTVjEbwVeC2UwRu91HCDz5jLya8GEpsy-WomiX/exec';
+
+// 2. Thông tin bài kiểm tra
+const TEST_CONFIG = {
+    testWeek: 'Week1',
+    testTitle: 'READING TEST - WEEK 1',
+    totalQuestions: 37,
+    testDuration: 30
+};
+
+// 3. Đáp án đúng
+const correctAnswers = {
+    1: 'B', 2: 'A', 3: 'B', 4: 'B', 5: 'B', 6: 'C', 7: 'C',
+    8: 'B', 9: 'B', 10: 'B', 11: 'A', 12: 'B', 13: 'C', 14: 'B',
+    15: 'B', 16: 'A', 17: 'B', 18: 'A', 19: 'B', 20: 'A', 21: 'A',
+    22: 'B', 23: 'B', 24: 'B', 25: 'B', 26: 'B', 27: 'C', 28: 'B',
+    29: 'B', 30: 'B', 31: 'B', 32: 'C', 33: 'B', 34: 'B', 35: 'B',
+    36: 'B', 37: 'B'
+};
+
+// 4. Câu hỏi
+const questions = [
+    {
+        num: 1,
+        text: 'You use this to cut paper. It has two blades and handles. You open and close it with your fingers. What is it?',
+        options: { A: 'A stapler', B: 'Scissors', C: 'A ruler' }
+    },
+    {
+        num: 2,
+        text: 'You want to buy a new bicycle, but you don\'t have enough money. You ask your parents if they can give you the money now. You promise to do extra chores to pay them back later. You want to _____ money.',
+        options: { A: 'borrow', B: 'earn', C: 'save' }
+    },
+    {
+        num: 3,
+        text: 'You find a math problem that you cannot figure out. You try many different ways, but nothing works. Finally, you ask your teacher for help. The problem is _____.',
+        options: { A: 'simple', B: 'challenging', C: 'boring' }
+    },
+    {
+        num: 4,
+        text: 'Your friend tells you a secret. She asks you not to tell anyone else. You promise to keep her secret safe. You are being _____.',
+        options: { A: 'honest', B: 'trustworthy', C: 'generous' }
+    },
+    {
+        num: 5,
+        text: 'This word means something happens at the same time every day or every week. Your school starts at this time. Your favorite TV show airs at this time.',
+        options: { A: 'often', B: 'regularly', C: 'suddenly' }
+    },
+    {
+        num: 6,
+        text: 'You enter a drawing contest at school. Many students submitted beautiful artwork. The judges choose your drawing as the winner. You _____ the contest.',
+        options: { A: 'entered', B: 'enjoyed', C: 'won' }
+    },
+    {
+        num: 7,
+        text: 'Your little brother is trying to reach a toy on a high shelf. He cannot get it by himself. You _____ to help him.',
+        options: { A: 'reach out', B: 'look up', C: 'step in' }
+    },
+    {
+        num: 8,
+        context: '<div class="bg-blue-50 p-4 rounded-lg mb-4"><h3 class="font-bold mb-2">RIVERSIDE COMMUNITY CENTER - SUMMER CAMP 2024</h3><p class="text-sm mb-2"><strong>Ages:</strong> 6-12 years old | <strong>Dates:</strong> July 8 - August 16 (6 weeks)</p><p class="text-sm mb-2"><strong>WEEKLY SCHEDULE:</strong><br>Monday & Wednesday: Sports and outdoor games<br>Tuesday & Thursday: Arts, crafts, and music<br>Friday: Field trips to local attractions</p><p class="text-sm mb-2"><strong>CAMP HOURS:</strong><br>Drop-off: 8:00 AM - 8:30 AM | Pick-up: 3:00 PM - 3:30 PM<br>Extended care: Morning (7:00 AM - 8:00 AM): $5/day | Afternoon (3:30 PM - 5:30 PM): $8/day</p><p class="text-sm mb-2"><strong>COST:</strong> $150/week (includes lunch) | $800 for full 6-week program (save $100!)</p><p class="text-sm"><strong>Register by:</strong> June 20 | <strong>Contact:</strong> www.riversidecc.org/summercamp or 555-7890</p></div>',
+        text: 'What activities happen on Tuesdays?',
+        options: { A: 'Sports and outdoor games', B: 'Arts, crafts, and music', C: 'Field trips' }
+    },
+    {
+        num: 9,
+        text: 'If a parent needs to drop off their child at 7:15 AM, what must they pay?',
+        options: { A: 'Nothing extra', B: '$5 per day', C: '$8 per day' }
+    },
+    {
+        num: 10,
+        text: 'How much money do you save if you register for all 6 weeks instead of paying week by week?',
+        options: { A: '$50', B: '$100', C: '$150' }
+    },
+    {
+        num: 11,
+        text: 'When must families register to join the summer camp?',
+        options: { A: 'Before June 20', B: 'Before July 8', C: 'Before August 16' }
+    },
+    {
+        num: 12,
+        context: '<div class="bg-blue-50 p-4 rounded-lg mb-4"><h3 class="font-bold mb-2">Email: Field Trip Permission - Science Museum</h3><p class="text-sm mb-2"><strong>From:</strong> Mrs. Thompson | <strong>Date:</strong> Friday, May 17</p><p class="text-sm mb-2">Our class will visit the Natural Science Museum to learn about ecosystems and biodiversity.</p><p class="text-sm mb-2"><strong>Details:</strong> Departure 8:30 AM (arrive by 8:15 AM) | Return 2:00 PM | Cost: $12 per student</p><p class="text-sm mb-2"><strong>Students need:</strong> Packed lunch (no peanut products), water bottle, comfortable shoes, notebook and pencil</p><p class="text-sm"><strong>Parent volunteers:</strong> Need 4 volunteers by May 6th. Must complete background check form.</p></div>',
+        text: 'What is the main purpose of this field trip?',
+        options: { A: 'To have fun outside of school', B: 'To learn about science topics they\'re studying', C: 'To visit a museum before summer' }
+    },
+    {
+        num: 13,
+        text: 'What should students NOT bring in their lunch?',
+        options: { A: 'Water', B: 'Sandwiches', C: 'Peanut products' }
+    },
+    {
+        num: 14,
+        text: 'If a parent wants to volunteer, what must they do?',
+        options: { A: 'Call the museum', B: 'Complete a background check form', C: 'Pay an extra fee' }
+    },
+    {
+        num: 15,
+        context: '<div class="bg-blue-50 p-4 rounded-lg mb-4"><h3 class="font-bold mb-2">Important Weather Update</h3><p class="text-sm mb-2"><strong>From:</strong> Principal Rodriguez</p><p class="text-sm mb-2">Due to severe winter storm, school will be CLOSED on Thursday, January 25th and Friday, January 26th.</p><p class="text-sm mb-2">Safety is our priority. Heavy snow and dangerous road conditions are predicted.</p><p class="text-sm"><strong>Important:</strong> All activities cancelled. Homework posted on school website. Make-up days at end of year. Last day now June 15th.</p></div>',
+        text: 'Why is school closing?',
+        options: { A: 'Because it\'s a holiday', B: 'Because of dangerous weather', C: 'Because teachers need training' }
+    },
+    {
+        num: 16,
+        text: 'Where can students find their homework assignments?',
+        options: { A: 'On the school website', B: 'On local news', C: 'In an email from teachers' }
+    },
+    {
+        num: 17,
+        context: '<div class="bg-blue-50 p-4 rounded-lg mb-4"><h3 class="font-bold mb-2">Email: Group Project Meeting</h3><p class="text-sm mb-2"><strong>From:</strong> Oliver to Sophia</p><p class="text-sm mb-2">Thanks for working on the ancient Egypt history project with me and Maya! Project due in 3 weeks.</p><p class="text-sm mb-2">Can we meet Saturday at public library at 10:00 AM until noon? My mom can drive us.</p><p class="text-sm mb-2">Maya can come but needs to leave by 11:30 AM for piano lesson at 12:00 PM.</p><p class="text-sm"><strong>Saturday plan:</strong> Decide topics, make question list, start research with books.</p></div>',
+        text: 'What is Oliver\'s main purpose for writing this email?',
+        options: { A: 'To tell Sophia about ancient Egypt', B: 'To arrange a meeting for their project', C: 'To ask Sophia to go to the library' }
+    },
+    {
+        num: 18,
+        text: 'Why does Maya need to leave early?',
+        options: { A: 'She has a piano lesson', B: 'Her mom is picking her up', C: 'She doesn\'t like group projects' }
+    },
+    {
+        num: 19,
+        context: '<div class="bg-blue-50 p-4 rounded-lg mb-4"><h3 class="font-bold mb-2">How to Grow a Vegetable Garden</h3><p class="text-sm mb-2">Growing vegetables is fun and healthy! Follow these steps:</p><p class="text-sm mb-2">1. <strong>Choose a sunny spot</strong> - Vegetables need at least 6 hours of sunlight daily</p><p class="text-sm mb-2">2. <strong>Prepare the soil</strong> - Loosen dirt and mix in compost or plant food</p><p class="text-sm mb-2">3. <strong>Plant seeds</strong> - Make small holes, drop in seeds (lettuce, tomatoes, carrots), cover with soil, water lightly</p><p class="text-sm mb-2">4. <strong>Water and care</strong> - Check daily, water when soil feels dry, pull out weeds</p><p class="text-sm">5. <strong>Harvest and enjoy!</strong> - When vegetables look ready, pick them, wash well, and enjoy!</p></div>',
+        text: 'Why do vegetables need sunlight?',
+        options: { A: 'To keep bugs away', B: 'To help them grow', C: 'To make them taste better' }
+    },
+    {
+        num: 20,
+        text: 'What should you add to the soil?',
+        options: { A: 'Compost or plant food', B: 'Sand and stones', C: 'Extra water' }
+    },
+    {
+        num: 21,
+        text: 'When should you water the garden?',
+        options: { A: 'When the soil feels dry', B: 'Every hour', C: 'Only at night' }
+    },
+    {
+        num: 22,
+        text: 'What do you do when vegetables are ready?',
+        options: { A: 'Leave them to grow more', B: 'Pick and wash them', C: 'Move them to new soil' }
+    },
+    {
+        num: 23,
+        context: '<div class="bg-blue-50 p-4 rounded-lg mb-4"><h3 class="font-bold mb-2">The Science of Making Ice Cream</h3><p class="text-sm mb-2">Ice cream forms when milk, cream, and sugar freeze together. But how can they freeze with just salt and ice?</p><p class="text-sm mb-2">When you mix salt with ice, the temperature drops below 0°C. Salt makes ice melt faster, taking heat away from the ingredients. This freezes the milk mixture into smooth, creamy ice cream.</p><p class="text-sm mb-2"><strong>Try it:</strong> Put milk, sugar, and vanilla in a small bag. Seal it and place inside a larger bag with ice and salt. Shake for 5-10 minutes.</p><p class="text-sm">Shaking keeps ice crystals small so texture stays creamy. Add fruit or chocolate chips for new flavors!</p></div>',
+        text: 'Why does adding salt to ice make it colder?',
+        options: { A: 'It adds flavor', B: 'It makes ice melt and take away heat', C: 'It turns ice into sugar' }
+    },
+    {
+        num: 24,
+        text: 'What do you put inside the small bag?',
+        options: { A: 'Ice and salt', B: 'Milk, sugar, and vanilla', C: 'Chocolate chips' }
+    },
+    {
+        num: 25,
+        text: 'Why do we shake the bag?',
+        options: { A: 'To mix the colors', B: 'To keep ice crystals small', C: 'To make bubbles' }
+    },
+    {
+        num: 26,
+        text: 'What is the main idea of the passage?',
+        options: { A: 'Ice cream was first made in Italy', B: 'Ice cream can be made using science', C: 'Salt makes everything taste better' }
+    },
+    {
+        num: 27,
+        context: '<div class="bg-blue-50 p-4 rounded-lg mb-4"><h3 class="font-bold mb-2">Lisa and Grandma\'s Secret Recipe</h3><p class="text-sm mb-2">Every Sunday, Lisa visited her grandmother to bake cookies in the warm, sweet-smelling kitchen.</p><p class="text-sm mb-2">One rainy morning, Grandma said they would make a special recipe from her mother. Lisa measured flour, sugar, and butter carefully. Grandma added chocolate chips and stirred with a wooden spoon.</p><p class="text-sm mb-2">While cookies baked, Lisa asked why Grandma loved baking. "Because it brings people together," Grandma smiled. "We share love and memories."</p><p class="text-sm">The cookies came out golden brown. Grandma gave Lisa the recipe card: "This is yours now. Pass it on someday." Lisa realized it wasn\'t just about cookies—it was about family and traditions that last forever.</p></div>',
+        text: 'What did Lisa and Grandma do together?',
+        options: { A: 'Planted flowers', B: 'Painted pictures', C: 'Baked cookies' }
+    },
+    {
+        num: 28,
+        text: 'Why was today\'s recipe special?',
+        options: { A: 'It used new ingredients', B: 'It was from Grandma\'s mother', C: 'It was from a cookbook' }
+    },
+    {
+        num: 29,
+        text: 'What did Grandma say baking does?',
+        options: { A: 'Makes people full', B: 'Brings people together', C: 'Helps people learn math' }
+    },
+    {
+        num: 30,
+        text: 'What did Lisa learn at the end?',
+        options: { A: 'Baking is only for fun', B: 'Traditions and love are important', C: 'Recipes should be secret' }
+    },
+    {
+        num: 31,
+        context: '<div class="bg-blue-50 p-4 rounded-lg mb-4"><h3 class="font-bold mb-2">Marcus and the Chess Club</h3><p class="text-sm mb-2">Marcus loved solving puzzles, so he signed up for Chess Club. After losing his first three games, he felt frustrated.</p><p class="text-sm mb-2">Mr. Lopez, the coach, said "Every loss is a lesson, Marcus." They reviewed the games together. Marcus learned about opening moves, defense, and planning ahead.</p><p class="text-sm mb-2">After weeks of practice, Marcus played against Nina. He thought carefully before each move. When he said "Checkmate," the club clapped!</p><p class="text-sm">Marcus realized chess wasn\'t just about winning. It was about patience, strategy, and learning from mistakes.</p></div>',
+        text: 'Why did Marcus join the Chess Club?',
+        options: { A: 'He wanted to meet friends', B: 'He loved solving puzzles', C: 'He had to join for school' }
+    },
+    {
+        num: 32,
+        text: 'How did Marcus feel after his first few games?',
+        options: { A: 'Excited', B: 'Bored', C: 'Frustrated' }
+    },
+    {
+        num: 33,
+        text: 'What helped Marcus improve?',
+        options: { A: 'Watching online videos', B: 'Studying with Mr. Lopez', C: 'Playing only at home' }
+    },
+    {
+        num: 34,
+        text: 'What lesson did Marcus learn?',
+        options: { A: 'Winning is the only goal', B: 'Strategy and patience are important', C: 'Chess is boring' }
+    },
+    {
+        num: 35,
+        context: '<div class="bg-blue-50 p-4 rounded-lg mb-4"><h3 class="font-bold mb-2">Why Some Frogs Glow</h3><p class="text-sm mb-2">Some frogs can glow in the dark! Scientists discovered certain frogs give off soft green or blue light under ultraviolet (UV) light.</p><p class="text-sm mb-2">This glow doesn\'t come from fire like fireflies. Frogs have special chemicals in their skin that absorb light and shine it back. This is called fluorescence.</p><p class="text-sm mb-2">Researchers believe the glow helps frogs see each other at night. Frogs are active in darkness, and glowing skin makes it easier to find friends or mates. The light may also confuse predators.</p><p class="text-sm">Scientists first noticed glowing frogs in South America in 2017. Since then, more species have been found in Asia and Africa. Special cameras can capture this amazing light!</p></div>',
+        text: 'What causes frogs to glow?',
+        options: { A: 'Fire inside their bodies', B: 'Chemicals in their skin', C: 'Tiny lights under water' }
+    },
+    {
+        num: 36,
+        text: 'Why might glowing help frogs?',
+        options: { A: 'To keep warm', B: 'To find friends or mates', C: 'To attract insects' }
+    },
+    {
+        num: 37,
+        context: '<div class="bg-blue-50 p-4 rounded-lg mb-4"><h3 class="font-bold mb-2">The Story of Bubble Gum</h3><p class="text-sm mb-2">Have you ever blown a huge pink bubble? Bubble gum wasn\'t always around—it took years of experimenting!</p><p class="text-sm mb-2">In the early 1900s, people had chewing gum, but it was sticky and couldn\'t stretch. Candy maker Walter Diemer wanted to fix that. He mixed sugar, flavor, and a secret rubbery ingredient until he found a batch that stretched without breaking.</p><p class="text-sm mb-2">When he tried it, he accidentally blew the first bubble! Kids loved it. Walter added pink coloring because that was the only dye left in the factory. That\'s why most bubble gum is still pink today!</p><p class="text-sm">Soon stores everywhere sold his creation. Blowing bubbles became a fun challenge. Today bubble gum comes in many colors and flavors, but Walter\'s pink invention started it all.</p></div>',
+        text: 'Why is most bubble gum pink?',
+        options: { A: 'Pink tastes the best', B: 'It was the only color Walter had', C: 'Kids asked for pink gum' }
+    }
+];
+
+// ========== HẾT PHẦN CẤU HÌNH ==========
+
+let studentInfo = {};
+let answers = {};
+let timeLeft = TEST_CONFIG.testDuration * 60;
+let timerInterval;
+let startTime;
+
+function init() {
+    document.getElementById('testTitle').textContent = TEST_CONFIG.testTitle;
+    document.getElementById('testTitleHeader').textContent = TEST_CONFIG.testTitle;
+    document.getElementById('totalQuestions').textContent = TEST_CONFIG.totalQuestions;
+    document.getElementById('totalQuestionsDisplay').textContent = TEST_CONFIG.totalQuestions;
+    document.getElementById('testDuration').textContent = TEST_CONFIG.testDuration;
+    document.getElementById('unansweredCount').textContent = TEST_CONFIG.totalQuestions;
+}
+
+function startTest() {
+    const code = document.getElementById('studentCode').value.trim().toUpperCase();
+    
+    if (!code) {
+        alert('Vui lòng nhập mã học sinh!');
+        return;
+    }
+    
+    if (!code.match(/^HS\d{3}$/)) {
+        alert('Mã học sinh không đúng định dạng (ví dụ: HS001)');
+        return;
+    }
+    
+    studentInfo = { studentCode: code };
+    
+    document.getElementById('infoScreen').classList.add('hidden');
+    document.getElementById('testScreen').classList.remove('hidden');
+    
+    document.getElementById('headerStudentCode').textContent = 'Mã: ' + code;
+    
+    renderQuestions();
+    startTimer();
+    startTime = new Date();
+}
+
+function renderQuestions() {
+    const container = document.getElementById('questionsContainer');
+    let html = '';
+    
+    questions.forEach(q => {
+        html += `
+        <div class="border-b-2 border-green-100 pb-6 mb-6 last:border-b-0">
+            <div class="flex gap-4">
+                <div class="flex-shrink-0">
+                    <div class="w-10 h-10 bg-green-600 text-white rounded-full flex items-center justify-center font-bold">
+                        ${q.num}
+                    </div>
+                </div>
+                
+                <div class="flex-1">
+                    ${q.context || ''}
+                    <p class="text-gray-800 mb-4 text-lg leading-relaxed">${q.text}</p>
+                    
+                    <div class="space-y-2">
+        `;
+        
+        Object.entries(q.options).forEach(([key, value]) => {
+            html += `
+                <label class="flex items-start gap-3 p-4 rounded-lg cursor-pointer transition-all bg-gray-50 border-2 border-gray-200 hover:bg-gray-100 answer-option" data-question="${q.num}" data-answer="${key}">
+                    <input type="radio" name="q${q.num}" value="${key}" onchange="handleAnswer(${q.num}, '${key}')"
+                        class="mt-1 w-5 h-5 text-green-600">
+                    <span class="flex-1 text-gray-700">
+                        <span class="font-semibold text-green-700">${key}.</span> ${value}
+                    </span>
+                </label>
+            `;
+        });
+        
+        html += `
+                    </div>
+                </div>
+            </div>
+        </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function handleAnswer(questionNum, answer) {
+    answers[questionNum] = answer;
+    updateProgress();
+    
+    document.querySelectorAll(`label[data-question="${questionNum}"]`).forEach(label => {
+        if (label.dataset.answer === answer) {
+            label.classList.remove('bg-gray-50', 'border-gray-200');
+            label.classList.add('bg-green-100', 'border-green-500');
+        } else {
+            label.classList.remove('bg-green-100', 'border-green-500');
+            label.classList.add('bg-gray-50', 'border-gray-200');
+        }
+    });
+}
+
+function updateProgress() {
+    const answered = Object.keys(answers).length;
+    const percent = Math.round((answered / TEST_CONFIG.totalQuestions) * 100);
+    
+    document.getElementById('progress').textContent = answered;
+    document.getElementById('progressPercent').textContent = percent + '%';
+    document.getElementById('progressBar').style.width = percent + '%';
+    
+    const unanswered = TEST_CONFIG.totalQuestions - answered;
+    if (unanswered > 0) {
+        document.getElementById('warningBox').classList.remove('hidden');
+        document.getElementById('unansweredCount').textContent = unanswered;
+    } else {
+        document.getElementById('warningBox').classList.add('hidden');
+    }
+}
+
+function startTimer() {
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        const timeString = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        
+        document.getElementById('timer').textContent = timeString;
+        
+        const clockIcon = document.getElementById('clockIcon');
+        const timerSpan = document.getElementById('timer');
+        
+        if (timeLeft < 60) {
+            clockIcon.classList.add('text-red-600');
+            clockIcon.classList.remove('text-green-600');
+            timerSpan.classList.add('text-red-600');
+            timerSpan.classList.remove('text-green-600');
+        }
+        
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            submitTest();
+        }
+    }, 1000);
+}
+
+async function submitTest() {
+    clearInterval(timerInterval);
+    
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `
+        <div class="spinner"></div>
+        <span>Đang nộp bài...</span>
+    `;
+    
+    // Tính điểm
+    let correctCount = 0;
+    let wrongQuestions = [];
+    
+    Object.keys(correctAnswers).forEach(q => {
+        const qNum = parseInt(q);
+        if (answers[qNum] === correctAnswers[qNum]) {
+            correctCount++;
+        } else if (answers[qNum]) {
+            wrongQuestions.push(qNum);
+        } else {
+            wrongQuestions.push(qNum + '(bỏ trống)');
+        }
+    });
+    
+    const totalScore = Math.round((correctCount / TEST_CONFIG.totalQuestions) * 100);
+    const endTime = new Date();
+    const timeUsed = Math.round((endTime - startTime) / 60000);
+    
+    const wrongQuestionsText = wrongQuestions.length > 0 
+        ? wrongQuestions.join(', ') 
+        : 'Không có';
+    
+    // Dữ liệu gửi lên Google Sheet
+    const dataToSend = {
+        timestamp: new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }),
+        studentCode: studentInfo.studentCode,
+        testWeek: TEST_CONFIG.testWeek,
+        score: totalScore,
+        correctAnswers: correctCount,
+        totalQuestions: TEST_CONFIG.totalQuestions,
+        wrongQuestions: wrongQuestionsText,
+        answers: JSON.stringify(answers)
+    };
+    
+    try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataToSend)
+        });
+        
+        console.log('Đã gửi kết quả lên Google Sheets');
+    } catch (error) {
+        console.error('Lỗi khi gửi dữ liệu:', error);
+    }
+    
+    document.getElementById('testScreen').classList.add('hidden');
+    document.getElementById('resultScreen').classList.remove('hidden');
+    
+    document.getElementById('resultScore').textContent = totalScore + '%';
+    document.getElementById('resultCorrect').textContent = correctCount + '/' + TEST_CONFIG.totalQuestions;
+    document.getElementById('resultTime').textContent = timeUsed + ' phút';
+}
+
+window.onload = init;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIME - READING TEST 3 (WEEK 2)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 50%, #A5D6A7 100%);
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #16a34a;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Màn hình nhập thông tin -->
+<div id="infoScreen" class="min-h-screen p-4 fade-in">
+    <div class="max-w-2xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 mt-8">
+            <div class="text-center mb-8">
+                <img src="https://gofirst.pro/images/uploads/62/baseimg/logo_16541442053.png" 
+                     alt="LIME Logo" 
+                     class="w-32 h-32 mx-auto mb-4 object-contain">
+                <h1 class="text-4xl font-bold text-green-700 mb-2">Trung Tâm Tiếng Anh LIME</h1>
+                <p class="text-green-600 text-lg">Hotline: 0976222792</p>
+                <div class="mt-4 h-1 w-32 bg-green-500 mx-auto rounded"></div>
+            </div>
+            
+            <div class="bg-green-50 rounded-xl p-6 mb-6">
+                <h2 class="text-2xl font-bold text-green-800 mb-4" id="testTitle">READING TEST 3 (WEEK 2)</h2>
+                <div class="space-y-2 text-green-700">
+                    <p>📝 Số câu hỏi: <span id="totalQuestions">37</span> câu</p>
+                    <p>⏰ Thời gian: <span id="testDuration">30</span> phút</p>
+                    <p>✅ Làm bài trực tuyến, chấm điểm tự động</p>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-green-800 font-semibold mb-2">Mã học sinh *</label>
+                    <input type="text" id="studentCode" 
+                        class="w-full px-4 py-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:outline-none"
+                        placeholder="Ví dụ: HS001">
+                    <p class="text-sm text-gray-600 mt-1">💡 Nếu chưa có mã, hãy liên hệ giáo viên để được cấp mã</p>
+                </div>
+            </div>
+
+            <button onclick="startTest()" 
+                class="w-full mt-6 bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-lg transition duration-300 text-lg shadow-lg">
+                BẮT ĐẦU LÀM BÀI
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Màn hình làm bài -->
+<div id="testScreen" class="hidden min-h-screen p-4">
+    <div class="max-w-5xl mx-auto">
+        <!-- Header sticky -->
+        <div class="bg-white rounded-2xl shadow-2xl p-6 mb-6 sticky top-4 z-10">
+            <div class="flex justify-between items-center flex-wrap gap-4">
+                <div class="flex items-center gap-3">
+                    <img src="https://gofirst.pro/images/uploads/62/baseimg/logo_16541442053.png" 
+                         alt="LIME Logo" 
+                         class="w-12 h-12 object-contain">                
+                    <div>
+                        <h1 class="text-2xl font-bold text-green-700">LIME</h1>
+                        <p class="text-green-600 text-sm" id="headerStudentCode"></p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="flex items-center gap-2 bg-green-100 px-4 py-2 rounded-lg">
+                        <svg class="w-6 h-6" id="clockIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span id="timer" class="text-2xl font-bold text-green-600">30:00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <div class="flex justify-between text-sm text-gray-600 mb-1">
+                    <span>Tiến độ: <span id="progress">0</span>/<span id="totalQuestionsDisplay">37</span> câu</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-3">
+                    <div id="progressBar" class="bg-green-600 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nội dung bài test -->
+        <div class="bg-white rounded-2xl shadow-2xl p-8">
+            <h2 class="text-3xl font-bold text-green-800 mb-6 text-center" id="testTitleHeader">READING TEST 3 (WEEK 2)</h2>
+            
+            <div id="questionsContainer" class="space-y-8">
+                <!-- Questions will be inserted here by JavaScript -->
+            </div>
+
+            <div class="mt-8 pt-6 border-t-2 border-green-200">
+                <button onclick="submitTest()" id="submitBtn"
+                    class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-lg transition duration-300 text-xl shadow-lg flex items-center justify-center gap-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    NỘP BÀI
+                </button>
+                
+                <div id="warningBox" class="hidden mt-4 p-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg flex items-start gap-2">
+                    <svg class="w-5 h-5 text-yellow-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                    </svg>
+                    <p class="text-yellow-800 text-sm">
+                        Bạn còn <span id="unansweredCount">37</span> câu chưa trả lời. Hãy kiểm tra lại trước khi nộp bài!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Màn hình kết quả -->
+<div id="resultScreen" class="hidden min-h-screen p-4">
+    <div class="max-w-3xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 mt-8 fade-in">
+            <div class="text-center mb-6">
+                <img src="https://gofirst.pro/images/uploads/62/baseimg/logo_16541442053.png" 
+                     alt="LIME Logo" 
+                     class="w-32 h-32 mx-auto mb-4 object-contain">
+                <h1 class="text-3xl font-bold text-green-700 mb-2">Trung Tâm Tiếng Anh LIME</h1>
+                <p class="text-green-600">Hotline: 0976222792</p>
+            </div>
+
+            <div class="text-center mb-8">
+                <svg class="w-24 h-24 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <h2 class="text-3xl font-bold text-green-800 mb-4">Nộp bài thành công!</h2>
+                <p class="text-xl text-gray-700 mb-2">Kết quả đã được ghi nhận</p>
+            </div>
+
+            <div class="bg-green-50 rounded-xl p-6 mb-6 border-2 border-green-200">
+                <div class="text-center space-y-3">
+                    <p class="text-lg text-gray-700">📊 Điểm số: <span id="resultScore" class="font-bold text-green-700"></span></p>
+                    <p class="text-lg text-gray-700">✅ Số câu đúng: <span id="resultCorrect" class="font-bold text-green-700"></span></p>
+                    <p class="text-lg text-gray-700">⏰ Thời gian làm bài: <span id="resultTime" class="font-bold text-green-700"></span></p>
+                </div>
+            </div>
+
+            <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-6 mb-6">
+                <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <div>
+                        <h3 class="font-bold text-blue-800 mb-2">📝 Lưu ý:</h3>
+                        <p class="text-blue-700">
+                            Kết quả đã được lưu vào hệ thống. Giáo viên sẽ xem xét và phản hồi trong buổi học tới.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="location.reload()" 
+                class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-lg transition duration-300 text-lg shadow-lg">
+                Về trang chủ
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ========== CẤU HÌNH - ĐIỀN VÀO ĐÂY ==========
+
+// 1. URL Google Apps Script
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzV_Y-mHTxjOpJPiQizsCMP_ZZ7Y1VTVjEbwVeC2UwRu91HCDz5jLya8GEpsy-WomiX/exec';
+
+// 2. Thông tin bài kiểm tra
+const TEST_CONFIG = {
+    testWeek: 'Week2',
+    testTitle: 'READING TEST 3 (WEEK 2)',
+    totalQuestions: 37,
+    testDuration: 30
+};
+
+// 3. Đáp án đúng
+const correctAnswers = {
+    1: 'B', 2: 'B', 3: 'C', 4: 'B', 5: 'A', 6: 'A', 7: 'B',
+    8: 'B', 9: 'C', 10: 'B', 11: 'B', 12: 'B', 13: 'C', 14: 'B',
+    15: 'C', 16: 'B', 17: 'B', 18: 'B', 19: 'A', 20: 'B', 21: 'B',
+    22: 'B', 23: 'B', 24: 'A', 25: 'B', 26: 'A', 27: 'B', 28: 'C',
+    29: 'B', 30: 'A', 31: 'A', 32: 'A', 33: 'A', 34: 'A', 35: 'A',
+    36: 'A', 37: 'A'
+};
+
+// 4. Câu hỏi
+const questions = [
+    {
+        num: 1,
+        text: 'This is the opposite of remember. When you cannot think of someone\'s name or where you put your keys, you do this. What is it?',
+        options: { A: 'Recall', B: 'Forget', C: 'Ignore' }
+    },
+    {
+        num: 2,
+        text: 'You see a younger student drop her books in the hallway. Other students walk past without stopping. You stop to help her pick them up. You are being _____.',
+        options: { A: 'careful', B: 'helpful', C: 'cheerful' }
+    },
+    {
+        num: 3,
+        text: 'The temperature outside does this throughout the day. Your height does this as you grow. Feelings can do this from happy to sad and back again. They _____.',
+        options: { A: 'increase', B: 'decrease', C: 'fluctuate' }
+    },
+    {
+        num: 4,
+        text: 'You worked on a difficult puzzle for two hours. Finally, you put in the last piece. You feel proud of yourself for finishing it. You feel a sense of _____.',
+        options: { A: 'relief', B: 'accomplishment', C: 'confusion' }
+    },
+    {
+        num: 5,
+        text: 'This word describes when you think carefully about information before making a decision. You don\'t rush. You think about what might happen. You are being _____.',
+        options: { A: 'thoughtful', B: 'doubtful', C: 'peaceful' }
+    },
+    {
+        num: 6,
+        text: 'You signed up for the school talent show. You will sing a song in front of the whole school. You practice every day to get ready. You are _____ for the show.',
+        options: { A: 'preparing', B: 'hoping', C: 'waiting' }
+    },
+    {
+        num: 7,
+        text: 'Your friend wants to copy your homework. You know this is wrong. You _____ to let her copy.',
+        options: { A: 'agree', B: 'refuse', C: 'forget' }
+    },
+    {
+        num: 8,
+        text: 'Read the announcement about Book Swap Event: How many tickets does a student get for bringing 3 books?',
+        options: { A: '2 tickets', B: '3 tickets', C: '5 tickets' }
+    },
+    {
+        num: 9,
+        text: 'Book Swap Event: When can students take books without using tickets?',
+        options: { A: 'At 10:00 AM', B: 'Anytime on March 16', C: 'After 1:00 PM on March 16' }
+    },
+    {
+        num: 10,
+        text: 'Book Swap Event: Which type of book is NOT accepted for the swap?',
+        options: { A: 'Fiction books', B: 'Textbooks', C: 'Non-fiction books' }
+    },
+    {
+        num: 11,
+        text: 'Book Swap Event: If you want a signed book from the Rare Books Table, how many tickets do you need?',
+        options: { A: '1 ticket', B: '2 tickets', C: '3 tickets' }
+    },
+    {
+        num: 12,
+        text: 'Orchestra Email: What is the main purpose of this email?',
+        options: { A: 'To invite Allison to audition', B: 'To inform Allison she was selected', C: 'To tell Allison about concert dates' }
+    },
+    {
+        num: 13,
+        text: 'Orchestra Email: What must Allison do by August 15?',
+        options: { A: 'Pay the participation fee', B: 'Buy her uniform', C: 'Confirm she will participate' }
+    },
+    {
+        num: 14,
+        text: 'Orchestra Email: What does the email say about the audition results?',
+        options: { A: 'Everyone who auditioned was accepted', B: 'Allison was one of 60 students chosen from over 200 applicants', C: 'Allison was the best violinist who auditioned' }
+    },
+    {
+        num: 15,
+        text: 'Community Pool: When can a 9-year-old child swim without an adult?',
+        options: { A: 'During Morning Lap Swim', B: 'Anytime during Open Swim', C: 'Never - children under 10 need adult supervision' }
+    },
+    {
+        num: 16,
+        text: 'Community Pool: What is the cheapest way for a family of four to swim together on a Friday evening?',
+        options: { A: 'Pay for Open Swim ($26)', B: 'Use Family Night ($20)', C: 'Buy a season pass ($450)' }
+    },
+    {
+        num: 17,
+        text: 'Jessica\'s Email: Why does Jessica need a partner?',
+        options: { A: 'Her previous partner quit', B: 'She was absent when partners were assigned', C: 'Mr. Harrison told her to email David' }
+    },
+    {
+        num: 18,
+        text: 'Jessica\'s Email: What can you infer about Jessica from this email?',
+        options: { A: 'She is shy and doesn\'t want a partner', B: 'She is proactive and respectful', C: 'She is worried about failing the class' }
+    },
+    {
+        num: 19,
+        text: 'Growing Crystals: What happens when the water can\'t dissolve more salt?',
+        options: { A: 'It becomes saturated', B: 'It becomes cold', C: 'It turns into ice' }
+    },
+    {
+        num: 20,
+        text: 'Growing Crystals: Why should the string not touch the sides of the jar?',
+        options: { A: 'It might melt', B: 'Crystals need space to grow', C: 'It will block the sunlight' }
+    },
+    {
+        num: 21,
+        text: 'Growing Crystals: What should you do after pouring the liquid into the jar?',
+        options: { A: 'Shake it', B: 'Leave it still', C: 'Freeze it' }
+    },
+    {
+        num: 22,
+        text: 'Growing Crystals: What is the most important safety note?',
+        options: { A: 'Write notes every day', B: 'Ask an adult to help with hot water', C: 'Use extra salt' }
+    },
+    {
+        num: 23,
+        text: 'Sand Sculpture: What material is mainly used in sand sculpture?',
+        options: { A: 'Clay', B: 'Sand', C: 'Wood' }
+    },
+    {
+        num: 24,
+        text: 'Sand Sculpture: Why do artists prefer wet sand?',
+        options: { A: 'It\'s easier to shape', B: 'It\'s heavier', C: 'It dries faster' }
+    },
+    {
+        num: 25,
+        text: 'Sand Sculpture: What do artists do to keep their work remembered?',
+        options: { A: 'Use glue', B: 'Take photos', C: 'Build walls' }
+    },
+    {
+        num: 26,
+        text: 'Sand Sculpture: What can destroy a sand sculpture?',
+        options: { A: 'Rain and wind', B: 'Too much sun', C: 'Strong colors' }
+    },
+    {
+        num: 27,
+        text: 'Rachel\'s First Day: Why was Rachel nervous in the morning?',
+        options: { A: 'She had a test', B: 'It was her first day', C: 'She woke up late' }
+    },
+    {
+        num: 28,
+        text: 'Rachel\'s First Day: How did Lucy make Rachel feel better?',
+        options: { A: 'She gave her candy', B: 'She invited her to lunch', C: 'She smiled and talked kindly' }
+    },
+    {
+        num: 29,
+        text: 'Rachel\'s First Day: What did the students talk about during lunch?',
+        options: { A: 'Homework', B: 'Hobbies and fun things', C: 'Exams' }
+    },
+    {
+        num: 30,
+        text: 'Rachel\'s First Day: What shows Rachel will return to school?',
+        options: { A: 'She felt excited about seeing classmates again', B: 'She wanted to move back', C: 'She disliked the school' }
+    },
+    {
+        num: 31,
+        text: 'Jordan and the Big Match: What was special about this year for Jordan?',
+        options: { A: 'He joined the school football team', B: 'He stopped playing football', C: 'He became the coach' }
+    },
+    {
+        num: 32,
+        text: 'Jordan and the Big Match: Who was their opponent in the final?',
+        options: { A: 'Hillview School', B: 'Westfield School', C: 'Jordan\'s old team' }
+    },
+    {
+        num: 33,
+        text: 'Jordan and the Big Match: What happened in the last few minutes?',
+        options: { A: 'Jordan scored the final goal', B: 'Hillview scored twice', C: 'The coach stopped the match' }
+    },
+    {
+        num: 34,
+        text: 'Jordan and the Big Match: What lesson did Jordan learn from the game?',
+        options: { A: 'Friendship and effort are more important than trophies', B: 'Winning is the only thing that matters', C: 'Football is too difficult' }
+    },
+    {
+        num: 35,
+        text: 'Windmills: Why are there many windmills in the Netherlands?',
+        options: { A: 'The country is flat and windy', B: 'The people love stories about windmills', C: 'They use them only for decoration' }
+    },
+    {
+        num: 36,
+        text: 'Windmills: What is another name for modern windmills?',
+        options: { A: 'Wind turbines', B: 'Water pumps', C: 'Air machines' }
+    },
+    {
+        num: 37,
+        text: 'Dinosaur Bones: What is the main idea of the text?',
+        options: { A: 'How people first learned about dinosaurs through fossil discoveries', B: 'Why dinosaurs disappeared from Earth', C: 'What scientists use to find bones today' }
+    }
+];
+
+// ========== HẾT PHẦN CẤU HÌNH ==========
+
+let studentInfo = {};
+let answers = {};
+let timeLeft = TEST_CONFIG.testDuration * 60;
+let timerInterval;
+let startTime;
+
+function init() {
+    document.getElementById('testTitle').textContent = TEST_CONFIG.testTitle;
+    document.getElementById('testTitleHeader').textContent = TEST_CONFIG.testTitle;
+    document.getElementById('totalQuestions').textContent = TEST_CONFIG.totalQuestions;
+    document.getElementById('totalQuestionsDisplay').textContent = TEST_CONFIG.totalQuestions;
+    document.getElementById('testDuration').textContent = TEST_CONFIG.testDuration;
+    document.getElementById('unansweredCount').textContent = TEST_CONFIG.totalQuestions;
+}
+
+function startTest() {
+    const code = document.getElementById('studentCode').value.trim().toUpperCase();
+    
+    if (!code) {
+        alert('Vui lòng nhập mã học sinh!');
+        return;
+    }
+    
+    if (!code.match(/^HS\d{3}$/)) {
+        alert('Mã học sinh không đúng định dạng (ví dụ: HS001)');
+        return;
+    }
+    
+    studentInfo = { studentCode: code };
+    
+    document.getElementById('infoScreen').classList.add('hidden');
+    document.getElementById('testScreen').classList.remove('hidden');
+    
+    document.getElementById('headerStudentCode').textContent = 'Mã: ' + code;
+    
+    renderQuestions();
+    startTimer();
+    startTime = new Date();
+}
+
+function renderQuestions() {
+    const container = document.getElementById('questionsContainer');
+    let html = '';
+    
+    questions.forEach(q => {
+        html += `
+        <div class="border-b-2 border-green-100 pb-6 mb-6 last:border-b-0">
+            <div class="flex gap-4">
+                <div class="flex-shrink-0">
+                    <div class="w-10 h-10 bg-green-600 text-white rounded-full flex items-center justify-center font-bold">
+                        ${q.num}
+                    </div>
+                </div>
+                
+                <div class="flex-1">
+                    <p class="text-gray-800 mb-4 text-lg leading-relaxed">${q.text}</p>
+                    
+                    <div class="space-y-2">
+        `;
+        
+        Object.entries(q.options).forEach(([key, value]) => {
+            html += `
+                <label class="flex items-start gap-3 p-4 rounded-lg cursor-pointer transition-all bg-gray-50 border-2 border-gray-200 hover:bg-gray-100 answer-option" data-question="${q.num}" data-answer="${key}">
+                    <input type="radio" name="q${q.num}" value="${key}" onchange="handleAnswer(${q.num}, '${key}')"
+                        class="mt-1 w-5 h-5 text-green-600">
+                    <span class="flex-1 text-gray-700">
+                        <span class="font-semibold text-green-700">${key}.</span> ${value}
+                    </span>
+                </label>
+            `;
+        });
+        
+        html += `
+                    </div>
+                </div>
+            </div>
+        </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+function handleAnswer(questionNum, answer) {
+    answers[questionNum] = answer;
+    updateProgress();
+    
+    document.querySelectorAll(`label[data-question="${questionNum}"]`).forEach(label => {
+        if (label.dataset.answer === answer) {
+            label.classList.remove('bg-gray-50', 'border-gray-200');
+            label.classList.add('bg-green-100', 'border-green-500');
+        } else {
+            label.classList.remove('bg-green-100', 'border-green-500');
+            label.classList.add('bg-gray-50', 'border-gray-200');
+        }
+    });
+}
+
+function updateProgress() {
+    const answered = Object.keys(answers).length;
+    const percent = Math.round((answered / TEST_CONFIG.totalQuestions) * 100);
+    
+    document.getElementById('progress').textContent = answered;
+    document.getElementById('progressPercent').textContent = percent + '%';
+    document.getElementById('progressBar').style.width = percent + '%';
+    
+    const unanswered = TEST_CONFIG.totalQuestions - answered;
+    if (unanswered > 0) {
+        document.getElementById('warningBox').classList.remove('hidden');
+        document.getElementById('unansweredCount').textContent = unanswered;
+    } else {
+        document.getElementById('warningBox').classList.add('hidden');
+    }
+}
+
+function startTimer() {
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        const timeString = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        
+        document.getElementById('timer').textContent = timeString;
+        
+        const clockIcon = document.getElementById('clockIcon');
+        const timerSpan = document.getElementById('timer');
+        
+        if (timeLeft < 60) {
+            clockIcon.classList.add('text-red-600');
+            clockIcon.classList.remove('text-green-600');
+            timerSpan.classList.add('text-red-600');
+            timerSpan.classList.remove('text-green-600');
+        }
+        
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            submitTest();
+        }
+    }, 1000);
+}
+
+async function submitTest() {
+    clearInterval(timerInterval);
+    
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `
+        <div class="spinner"></div>
+        <span>Đang nộp bài...</span>
+    `;
+    
+    // Tính điểm
+    let correctCount = 0;
+    let wrongQuestions = [];
+    
+    Object.keys(correctAnswers).forEach(q => {
+        const qNum = parseInt(q);
+        if (answers[qNum] === correctAnswers[qNum]) {
+            correctCount++;
+        } else if (answers[qNum]) {
+            wrongQuestions.push(qNum);
+        } else {
+            wrongQuestions.push(qNum + '(bỏ trống)');
+        }
+    });
+    
+    const totalScore = Math.round((correctCount / TEST_CONFIG.totalQuestions) * 100);
+    const endTime = new Date();
+    const timeUsed = Math.round((endTime - startTime) / 60000);
+    
+    const wrongQuestionsText = wrongQuestions.length > 0 
+        ? wrongQuestions.join(', ') 
+        : 'Không có';
+    
+    // Dữ liệu gửi lên Google Sheet
+    const dataToSend = {
+        timestamp: new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' }),
+        studentCode: studentInfo.studentCode,
+        testWeek: TEST_CONFIG.testWeek,
+        score: totalScore,
+        correctAnswers: correctCount,
+        totalQuestions: TEST_CONFIG.totalQuestions,
+        wrongQuestions: wrongQuestionsText,
+        answers: JSON.stringify(answers)
+    };
+    
+    try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataToSend)
+        });
+        
+        console.log('Đã gửi kết quả lên Google Sheets');
+    } catch (error) {
+        console.error('Lỗi khi gửi dữ liệu:', error);
+    }
+    
+    document.getElementById('testScreen').classList.add('hidden');
+    document.getElementById('resultScreen').classList.remove('hidden');
+    
+    document.getElementById('resultScore').textContent = totalScore + '%';
+    document.getElementById('resultCorrect').textContent = correctCount + '/' + TEST_CONFIG.totalQuestions;
+    document.getElementById('resultTime').textContent = timeUsed + ' phút';
+}
+
+window.onload = init;
+</script>
+
+</body>
+</html>
