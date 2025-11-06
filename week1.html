@@ -29,7 +29,20 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-    </style>
+    
+ .flex {
+        display: flex;
+    }
+    .items-center {
+        align-items: center;
+    }
+    .justify-center {
+        justify-content: center;
+    }
+    .gap-2 {
+        gap: 0.5rem;
+    }
+</style>
 </head>
 <body>
 
@@ -65,7 +78,8 @@
                 </div>
             </div>
 
-            <button onclick="startTest()" 
+            <button onclick="
+()" 
                 class="w-full mt-6 bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-lg transition duration-300 text-lg shadow-lg">
                 BẮT ĐẦU LÀM BÀI
             </button>
@@ -429,7 +443,18 @@ function init() {
     document.getElementById('unansweredCount').textContent = TEST_CONFIG.totalQuestions;
 }
 
-function startTest() {
+async function verifyStudentCode(studentCode) {
+    try {
+        const response = await fetch(GOOGLE_SCRIPT_URL + '?action=verify&code=' + studentCode);
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        console.error('Lỗi khi kiểm tra mã:', error);
+        return { status: 'error', exists: false };
+    }
+}
+
+async function startTest() {
     const code = document.getElementById('studentCode').value.trim().toUpperCase();
     
     if (!code) {
@@ -442,12 +467,40 @@ function startTest() {
         return;
     }
     
-    studentInfo = { studentCode: code };
+    // Hiển thị loading
+    const startBtn = document.querySelector('button[onclick="startTest()"]');
+    const originalText = startBtn.innerHTML;
+    startBtn.disabled = true;
+    startBtn.innerHTML = `
+        <div class="flex items-center justify-center gap-2">
+            <div class="spinner"></div>
+            <span>Đang kiểm tra mã...</span>
+        </div>
+    `;
+    
+    // Kiểm tra mã học sinh
+    const verifyResult = await verifyStudentCode(code);
+    
+    if (!verifyResult.exists) {
+        startBtn.disabled = false;
+        startBtn.innerHTML = originalText;
+        
+        // Hiển thị thông báo lỗi
+        alert('⚠️ MÃ HỌC SINH KHÔNG TỒN TẠI!\n\nVui lòng liên hệ Hotline: 0976222792 để nhận mã học sinh.');
+        return;
+    }
+    
+    // Mã hợp lệ - tiếp tục làm bài
+    studentInfo = { 
+        studentCode: code,
+        studentName: verifyResult.studentName || ''
+    };
     
     document.getElementById('infoScreen').classList.add('hidden');
     document.getElementById('testScreen').classList.remove('hidden');
     
-    document.getElementById('headerStudentCode').textContent = 'Mã: ' + code;
+    document.getElementById('headerStudentCode').textContent = 'Mã: ' + code + 
+        (verifyResult.studentName ? ' - ' + verifyResult.studentName : '');
     
     renderQuestions();
     startTimer();
