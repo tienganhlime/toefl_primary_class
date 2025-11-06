@@ -219,211 +219,142 @@ const TEST_CONFIG = {
 
 // 3. Đáp án đúng
 const correctAnswers = {
-    1: 'B', 2: 'A', 3: 'B', 4: 'B', 5: 'B', 6: 'C', 7: 'C',
-    8: 'B', 9: 'B', 10: 'B', 11: 'A', 12: 'B', 13: 'C', 14: 'B',
-    15: 'B', 16: 'A', 17: 'B', 18: 'A', 19: 'B', 20: 'A', 21: 'A',
-    22: 'B', 23: 'B', 24: 'B', 25: 'B', 26: 'B', 27: 'C', 28: 'B',
-    29: 'B', 30: 'B', 31: 'B', 32: 'C', 33: 'B', 34: 'B', 35: 'B',
-    36: 'B', 37: 'B'
+  1: 'B', // Scissors
+  2: 'A', // borrow
+  3: 'B', // challenging
+  4: 'B', // trustworthy
+  5: 'B', // regularly
+  6: 'C', // won
+  7: 'C', // step in
+
+  8: 'B', // Arts, crafts, and music
+  9: 'B', // $5 per day
+  10: 'B', // $100
+  11: 'A', // Before June 20
+
+  12: 'B', // To learn about science topics they're studying
+  13: 'C', // Peanut products
+  14: 'B', // Complete a background check form
+
+  15: 'B', // Because of dangerous weather
+  16: 'A', // On the school website
+
+  17: 'B', // To arrange a meeting for their project
+  18: 'A', // She has a piano lesson
+
+  19: 'B', // To help them grow
+  20: 'A', // Compost or plant food
+  21: 'A', // When the soil feels dry
+  22: 'B', // Pick and wash them
+
+  23: 'B', // It makes ice melt and take away heat
+  24: 'B', // Milk, sugar, and vanilla
+  25: 'B', // To keep ice crystals small
+  26: 'B', // Ice cream can be made using science
+
+  27: 'C', // Baked cookies
+  28: 'B', // It was from Grandma’s mother
+  29: 'B', // Brings people together
+  30: 'B', // Traditions and love are important
+
+  31: 'B', // He loved solving puzzles
+  32: 'C', // Frustrated
+  33: 'B', // Studying with Mr. Lopez
+  34: 'B', // Strategy and patience are important
+
+  35: 'B', // Chemicals in their skin
+  36: 'B', // To find friends or mates
+
+  37: 'B'  // It was the only color Walter had
 };
 
 // 4. Câu hỏi
 const questions = [
-    {
-        num: 1,
-        text: 'You use this to cut paper. It has two blades and handles. You open and close it with your fingers. What is it?',
-        options: { A: 'A stapler', B: 'Scissors', C: 'A ruler' }
-    },
-    {
-        num: 2,
-        text: 'You want to buy a new bicycle, but you don\'t have enough money. You ask your parents if they can give you the money now. You promise to do extra chores to pay them back later. You want to _____ money.',
-        options: { A: 'borrow', B: 'earn', C: 'save' }
-    },
-    {
-        num: 3,
-        text: 'You find a math problem that you cannot figure out. You try many different ways, but nothing works. Finally, you ask your teacher for help. The problem is _____.',
-        options: { A: 'simple', B: 'challenging', C: 'boring' }
-    },
-    {
-        num: 4,
-        text: 'Your friend tells you a secret. She asks you not to tell anyone else. You promise to keep her secret safe. You are being _____.',
-        options: { A: 'honest', B: 'trustworthy', C: 'generous' }
-    },
-    {
-        num: 5,
-        text: 'This word means something happens at the same time every day or every week. Your school starts at this time. Your favorite TV show airs at this time.',
-        options: { A: 'often', B: 'regularly', C: 'suddenly' }
-    },
-    {
-        num: 6,
-        text: 'You enter a drawing contest at school. Many students submitted beautiful artwork. The judges choose your drawing as the winner. You _____ the contest.',
-        options: { A: 'entered', B: 'enjoyed', C: 'won' }
-    },
-    {
-        num: 7,
-        text: 'Your little brother is trying to reach a toy on a high shelf. He cannot get it by himself. You _____ to help him.',
-        options: { A: 'reach out', B: 'look up', C: 'step in' }
-    },
-    {
-        num: 8,
-        context: '<div class="bg-blue-50 p-4 rounded-lg mb-4"><h3 class="font-bold mb-2">RIVERSIDE COMMUNITY CENTER - SUMMER CAMP 2024</h3><p class="text-lg mb-2"><strong>Ages:</strong> 6-12 years old | <strong>Dates:</strong> July 8 - August 16 (6 weeks)</p><p class="text-lg mb-2"><strong>WEEKLY SCHEDULE:</strong><br>Monday & Wednesday: Sports and outdoor games<br>Tuesday & Thursday: Arts, crafts, and music<br>Friday: Field trips to local attractions</p><p class="text-lg mb-2"><strong>CAMP HOURS:</strong><br>Drop-off: 8:00 AM - 8:30 AM | Pick-up: 3:00 PM - 3:30 PM<br>Extended care: Morning (7:00 AM - 8:00 AM): $5/day | Afternoon (3:30 PM - 5:30 PM): $8/day</p><p class="text-lg mb-2"><strong>COST:</strong> $150/week (includes lunch) | $800 for full 6-week program (save $100!)</p><p class="text-lg"><strong>Register by:</strong> June 20 | <strong>Contact:</strong> www.riversidecc.org/summercamp or 555-7890</p></div>',
-        text: 'What activities happen on Tuesdays?',
-        options: { A: 'Sports and outdoor games', B: 'Arts, crafts, and music', C: 'Field trips' }
-    },
-    {
-        num: 9,
-        text: 'If a parent needs to drop off their child at 7:15 AM, what must they pay?',
-        options: { A: 'Nothing extra', B: '$5 per day', C: '$8 per day' }
-    },
-    {
-        num: 10,
-        text: 'How much money do you save if you register for all 6 weeks instead of paying week by week?',
-        options: { A: '$50', B: '$100', C: '$150' }
-    },
-    {
-        num: 11,
-        text: 'When must families register to join the summer camp?',
-        options: { A: 'Before June 20', B: 'Before July 8', C: 'Before August 16' }
-    },
-    {
-        num: 12,
-        context: '<div class="bg-blue-50 p-4 rounded-lg mb-4"><h3 class="font-bold mb-2">Email: Field Trip Permission - Science Museum</h3><p class="text-lg mb-2"><strong>From:</strong> Mrs. Thompson | <strong>Date:</strong> Friday, May 17</p><p class="text-lg mb-2">Our class will visit the Natural Science Museum to learn about ecosystems and biodiversity.</p><p class="text-lg mb-2"><strong>Details:</strong> Departure 8:30 AM (arrive by 8:15 AM) | Return 2:00 PM | Cost: $12 per student</p><p class="text-lg mb-2"><strong>Students need:</strong> Packed lunch (no peanut products), water bottle, comfortable shoes, notebook and pencil</p><p class="text-lg"><strong>Parent volunteers:</strong> Need 4 volunteers by May 6th. Must complete background check form.</p></div>',
-        text: 'What is the main purpose of this field trip?',
-        options: { A: 'To have fun outside of school', B: 'To learn about science topics they\'re studying', C: 'To visit a museum before summer' }
-    },
-    {
-        num: 13,
-        text: 'What should students NOT bring in their lunch?',
-        options: { A: 'Water', B: 'Sandwiches', C: 'Peanut products' }
-    },
-    {
-        num: 14,
-        text: 'If a parent wants to volunteer, what must they do?',
-        options: { A: 'Call the museum', B: 'Complete a background check form', C: 'Pay an extra fee' }
-    },
-    {
-        num: 15,
-        context: '<div class="bg-blue-50 p-4 rounded-lg mb-4"><h3 class="font-bold mb-2">Important Weather Update</h3><p class="text-lg mb-2"><strong>From:</strong> Principal Rodriguez</p><p class="text-lg mb-2">Due to severe winter storm, school will be CLOSED on Thursday, January 25th and Friday, January 26th.</p><p class="text-lg mb-2">Safety is our priority. Heavy snow and dangerous road conditions are predicted.</p><p class="text-lg"><strong>Important:</strong> All activities cancelled. Homework posted on school website. Make-up days at end of year. Last day now June 15th.</p></div>',
-        text: 'Why is school closing?',
-        options: { A: 'Because it\'s a holiday', B: 'Because of dangerous weather', C: 'Because teachers need training' }
-    },
-    {
-        num: 16,
-        text: 'Where can students find their homework assignments?',
-        options: { A: 'On the school website', B: 'On local news', C: 'In an email from teachers' }
-    },
-    {
-        num: 17,
-        context: '<div class="bg-blue-50 p-4 rounded-lg mb-4"><h3 class="font-bold mb-2">Email: Group Project Meeting</h3><p class="text-lg mb-2"><strong>From:</strong> Oliver to Sophia</p><p class="text-lg mb-2">Thanks for working on the ancient Egypt history project with me and Maya! Project due in 3 weeks.</p><p class="text-lg mb-2">Can we meet Saturday at public library at 10:00 AM until noon? My mom can drive us.</p><p class="text-lg mb-2">Maya can come but needs to leave by 11:30 AM for piano lesson at 12:00 PM.</p><p class="text-lg"><strong>Saturday plan:</strong> Decide topics, make question list, start research with books.</p></div>',
-        text: 'What is Oliver\'s main purpose for writing this email?',
-        options: { A: 'To tell Sophia about ancient Egypt', B: 'To arrange a meeting for their project', C: 'To ask Sophia to go to the library' }
-    },
-    {
-        num: 18,
-        text: 'Why does Maya need to leave early?',
-        options: { A: 'She has a piano lesson', B: 'Her mom is picking her up', C: 'She doesn\'t like group projects' }
-    },
-    {
-        num: 19,
-        context: '<div class="bg-blue-50 p-4 rounded-lg mb-4"><h3 class="font-bold mb-2">How to Grow a Vegetable Garden</h3><p class="text-lg mb-2">Growing vegetables is fun and healthy! Follow these steps:</p><p class="text-lg mb-2">1. <strong>Choose a sunny spot</strong> - Vegetables need at least 6 hours of sunlight daily</p><p class="text-lg mb-2">2. <strong>Prepare the soil</strong> - Loosen dirt and mix in compost or plant food</p><p class="text-lg mb-2">3. <strong>Plant seeds</strong> - Make small holes, drop in seeds (lettuce, tomatoes, carrots), cover with soil, water lightly</p><p class="text-lg mb-2">4. <strong>Water and care</strong> - Check daily, water when soil feels dry, pull out weeds</p><p class="text-lg">5. <strong>Harvest and enjoy!</strong> - When vegetables look ready, pick them, wash well, and enjoy!</p></div>',
-        text: 'Why do vegetables need sunlight?',
-        options: { A: 'To keep bugs away', B: 'To help them grow', C: 'To make them taste better' }
-    },
-    {
-        num: 20,
-        text: 'What should you add to the soil?',
-        options: { A: 'Compost or plant food', B: 'Sand and stones', C: 'Extra water' }
-    },
-    {
-        num: 21,
-        text: 'When should you water the garden?',
-        options: { A: 'When the soil feels dry', B: 'Every hour', C: 'Only at night' }
-    },
-    {
-        num: 22,
-        text: 'What do you do when vegetables are ready?',
-        options: { A: 'Leave them to grow more', B: 'Pick and wash them', C: 'Move them to new soil' }
-    },
-    {
-        num: 23,
-        context: '<div class="bg-blue-50 p-4 rounded-lg mb-4"><h3 class="font-bold mb-2">The Science of Making Ice Cream</h3><p class="text-lg mb-2">Ice cream forms when milk, cream, and sugar freeze together. But how can they freeze with just salt and ice?</p><p class="text-lg mb-2">When you mix salt with ice, the temperature drops below 0°C. Salt makes ice melt faster, taking heat away from the ingredients. This freezes the milk mixture into smooth, creamy ice cream.</p><p class="text-lg mb-2"><strong>Try it:</strong> Put milk, sugar, and vanilla in a small bag. Seal it and place inside a larger bag with ice and salt. Shake for 5-10 minutes.</p><p class="text-lg">Shaking keeps ice crystals small so texture stays creamy. Add fruit or chocolate chips for new flavors!</p></div>',
-        text: 'Why does adding salt to ice make it colder?',
-        options: { A: 'It adds flavor', B: 'It makes ice melt and take away heat', C: 'It turns ice into sugar' }
-    },
-    {
-        num: 24,
-        text: 'What do you put inside the small bag?',
-        options: { A: 'Ice and salt', B: 'Milk, sugar, and vanilla', C: 'Chocolate chips' }
-    },
-    {
-        num: 25,
-        text: 'Why do we shake the bag?',
-        options: { A: 'To mix the colors', B: 'To keep ice crystals small', C: 'To make bubbles' }
-    },
-    {
-        num: 26,
-        text: 'What is the main idea of the passage?',
-        options: { A: 'Ice cream was first made in Italy', B: 'Ice cream can be made using science', C: 'Salt makes everything taste better' }
-    },
-    {
-        num: 27,
-        context: '<div class="bg-blue-50 p-4 rounded-lg mb-4"><h3 class="font-bold mb-2">Lisa and Grandma\'s Secret Recipe</h3><p class="text-lg mb-2">Every Sunday, Lisa visited her grandmother to bake cookies in the warm, sweet-smelling kitchen.</p><p class="text-lg mb-2">One rainy morning, Grandma said they would make a special recipe from her mother. Lisa measured flour, sugar, and butter carefully. Grandma added chocolate chips and stirred with a wooden spoon.</p><p class="text-lg mb-2">While cookies baked, Lisa asked why Grandma loved baking. "Because it brings people together," Grandma smiled. "We share love and memories."</p><p class="text-lg">The cookies came out golden brown. Grandma gave Lisa the recipe card: "This is yours now. Pass it on someday." Lisa realized it wasn\'t just about cookies—it was about family and traditions that last forever.</p></div>',
-        text: 'What did Lisa and Grandma do together?',
-        options: { A: 'Planted flowers', B: 'Painted pictures', C: 'Baked cookies' }
-    },
-    {
-        num: 28,
-        text: 'Why was today\'s recipe special?',
-        options: { A: 'It used new ingredients', B: 'It was from Grandma\'s mother', C: 'It was from a cookbook' }
-    },
-    {
-        num: 29,
-        text: 'What did Grandma say baking does?',
-        options: { A: 'Makes people full', B: 'Brings people together', C: 'Helps people learn math' }
-    },
-    {
-        num: 30,
-        text: 'What did Lisa learn at the end?',
-        options: { A: 'Baking is only for fun', B: 'Traditions and love are important', C: 'Recipes should be secret' }
-    },
-    {
-        num: 31,
-        context: '<div class="bg-blue-50 p-4 rounded-lg mb-4"><h3 class="font-bold mb-2">Marcus and the Chess Club</h3><p class="text-lg mb-2">Marcus loved solving puzzles, so he signed up for Chess Club. After losing his first three games, he felt frustrated.</p><p class="text-lg mb-2">Mr. Lopez, the coach, said "Every loss is a lesson, Marcus." They reviewed the games together. Marcus learned about opening moves, defense, and planning ahead.</p><p class="text-lg mb-2">After weeks of practice, Marcus played against Nina. He thought carefully before each move. When he said "Checkmate," the club clapped!</p><p class="text-lg">Marcus realized chess wasn\'t just about winning. It was about patience, strategy, and learning from mistakes.</p></div>',
-        text: 'Why did Marcus join the Chess Club?',
-        options: { A: 'He wanted to meet friends', B: 'He loved solving puzzles', C: 'He had to join for school' }
-    },
-    {
-        num: 32,
-        text: 'How did Marcus feel after his first few games?',
-        options: { A: 'Excited', B: 'Bored', C: 'Frustrated' }
-    },
-    {
-        num: 33,
-        text: 'What helped Marcus improve?',
-        options: { A: 'Watching online videos', B: 'Studying with Mr. Lopez', C: 'Playing only at home' }
-    },
-    {
-        num: 34,
-        text: 'What lesson did Marcus learn?',
-        options: { A: 'Winning is the only goal', B: 'Strategy and patience are important', C: 'Chess is boring' }
-    },
-    {
-        num: 35,
-        context: '<div class="bg-blue-50 p-4 rounded-lg mb-4"><h3 class="font-bold mb-2">Why Some Frogs Glow</h3><p class="text-lg mb-2">Some frogs can glow in the dark! Scientists discovered certain frogs give off soft green or blue light under ultraviolet (UV) light.</p><p class="text-lg mb-2">This glow doesn\'t come from fire like fireflies. Frogs have special chemicals in their skin that absorb light and shine it back. This is called fluorescence.</p><p class="text-lg mb-2">Researchers believe the glow helps frogs see each other at night. Frogs are active in darkness, and glowing skin makes it easier to find friends or mates. The light may also confuse predators.</p><p class="text-lg">Scientists first noticed glowing frogs in South America in 2017. Since then, more species have been found in Asia and Africa. Special cameras can capture this amazing light!</p></div>',
-        text: 'What causes frogs to glow?',
-        options: { A: 'Fire inside their bodies', B: 'Chemicals in their skin', C: 'Tiny lights under water' }
-    },
-    {
-        num: 36,
-        text: 'Why might glowing help frogs?',
-        options: { A: 'To keep warm', B: 'To find friends or mates', C: 'To attract insects' }
-    },
-    {
-        num: 37,
-        context: '<div class="bg-blue-50 p-4 rounded-lg mb-4"><h3 class="font-bold mb-2">The Story of Bubble Gum</h3><p class="text-lg mb-2">Have you ever blown a huge pink bubble? Bubble gum wasn\'t always around—it took years of experimenting!</p><p class="text-lg mb-2">In the early 1900s, people had chewing gum, but it was sticky and couldn\'t stretch. Candy maker Walter Diemer wanted to fix that. He mixed sugar, flavor, and a secret rubbery ingredient until he found a batch that stretched without breaking.</p><p class="text-lg mb-2">When he tried it, he accidentally blew the first bubble! Kids loved it. Walter added pink coloring because that was the only dye left in the factory. That\'s why most bubble gum is still pink today!</p><p class="text-lg">Soon stores everywhere sold his creation. Blowing bubbles became a fun challenge. Today bubble gum comes in many colors and flavors, but Walter\'s pink invention started it all.</p></div>',
-        text: 'Why is most bubble gum pink?',
-        options: { A: 'Pink tastes the best', B: 'It was the only color Walter had', C: 'Kids asked for pink gum' }
-    }
+{num:1,text:`You use this to cut paper. It has two blades and handles. You open and close it with your fingers. What is it?`,options:{A:`A stapler`,B:`Scissors`,C:`A ruler`}},
+{num:2,text:`You want to buy a new bicycle, but you don't have enough money. You ask your parents if they can give you the money now. You promise to do extra chores to pay them back later. You want to _____ money.`,options:{A:`borrow`,B:`earn`,C:`save`}},
+{num:3,text:`You find a math problem that you cannot figure out. You try many different ways, but nothing works. Finally, you ask your teacher for help. The problem is _____.`,options:{A:`simple`,B:`challenging`,C:`boring`}},
+{num:4,text:`Your friend tells you a secret. She asks you not to tell anyone else. You promise to keep her secret safe. You are being _____.`,options:{A:`honest`,B:`trustworthy`,C:`generous`}},
+{num:5,text:`This word means something happens at the same time every day or every week. Your school starts at this time. Your favorite TV show airs at this time.`,options:{A:`often`,B:`regularly`,C:`suddenly`}},
+{num:6,text:`You enter a drawing contest at school. Many students submitted beautiful artwork. The judges choose your drawing as the winner. You _____ the contest.`,options:{A:`entered`,B:`enjoyed`,C:`won`}},
+{num:7,text:`Your little brother is trying to reach a toy on a high shelf. He cannot get it by himself. You _____ to help him.`,options:{A:`reach out`,B:`look up`,C:`step in`}},
+
+{num:8,context:`<div class='bg-blue-50 p-4 rounded-lg mb-4'><h3 class='font-bold mb-2'>RIVERSIDE COMMUNITY CENTER – SUMMER CAMP 2024</h3>
+<p>Ages: 6–12 years old | Dates: July 8 – August 16 (6 weeks)</p>
+<p><strong>WEEKLY SCHEDULE:</strong><br>Monday & Wednesday: Sports and outdoor games<br>Tuesday & Thursday: Arts, crafts, and music<br>Friday: Field trips to local attractions</p>
+<p><strong>CAMP HOURS:</strong> Drop-off: 8:00–8:30 AM | Pick-up: 3:00–3:30 PM</p>
+<p><strong>Extended care:</strong> Morning (7:00–8:00 AM): $5/day | Afternoon (3:30–5:30 PM): $8/day</p>
+<p><strong>COST:</strong> $150/week or $800 full 6-week program (save $100!)</p>
+<p>Register by: June 20 | www.riversidecc.org/summercamp | Call 555-7890</p></div>`,text:`What activities happen on Tuesdays?`,options:{A:`Sports and outdoor games`,B:`Arts, crafts, and music`,C:`Field trips`}},
+{num:9,text:`If a parent needs to drop off their child at 7:15 AM, what must they pay?`,options:{A:`Nothing extra`,B:`$5 per day`,C:`$8 per day`}},
+{num:10,text:`How much money do you save if you register for all 6 weeks instead of paying week by week?`,options:{A:`$50`,B:`$100`,C:`$150`}},
+{num:11,text:`When must families register to join the summer camp?`,options:{A:`Before June 20`,B:`Before July 8`,C:`Before August 16`}},
+
+{num:12,context:`<div class='bg-blue-50 p-4 rounded-lg mb-4'><h3 class='font-bold mb-2'>Email: Field Trip Permission – Science Museum</h3>
+<p>From: Mrs. Thompson | To: Parents of Grade 4</p>
+<p>Our class will visit the Natural Science Museum on Friday, May 17th. This trip connects to our unit about ecosystems and biodiversity.</p>
+<p><strong>Details:</strong> Departure 8:30 AM (arrive 8:15) | Return 2:00 PM | Cost: $12/student | Bring packed lunch (no peanut products).</p>
+<p><strong>Parent volunteers:</strong> Need 4 volunteers by May 6. Must complete background check form from school office.</p></div>`,
+text:`What is the main purpose of this field trip?`,options:{A:`To have fun outside of school`,B:`To learn about science topics they're studying`,C:`To visit a museum before summer`}},
+{num:13,text:`What should students NOT bring in their lunch?`,options:{A:`Water`,B:`Sandwiches`,C:`Peanut products`}},
+{num:14,text:`If a parent wants to volunteer, what must they do?`,options:{A:`Call the museum`,B:`Complete a background check form`,C:`Pay an extra fee`}},
+
+{num:15,context:`<div class='bg-blue-50 p-4 rounded-lg mb-4'><h3 class='font-bold mb-2'>Important Weather Update</h3>
+<p>From: Principal Rodriguez | Mountain View School</p>
+<p>Due to a severe winter storm, school will be CLOSED on Thursday, January 25 and Friday, January 26. Heavy snow and dangerous roads are expected.</p>
+<p>All activities cancelled. Homework posted on school website. Make-up days: last day now June 15.</p></div>`,
+text:`Why is school closing?`,options:{A:`Because it's a holiday`,B:`Because of dangerous weather`,C:`Because teachers need training`}},
+{num:16,text:`Where can students find their homework assignments?`,options:{A:`On the school website`,B:`On local news`,C:`In an email from teachers`}},
+
+{num:17,context:`<div class='bg-blue-50 p-4 rounded-lg mb-4'><h3 class='font-bold mb-2'>Email: Group Project Meeting</h3>
+<p>From: Oliver to Sophia</p>
+<p>Thanks for agreeing to work with me and Maya on the ancient Egypt project! It’s due in three weeks. Let’s meet Saturday at the public library from 10:00 to 12:00. Maya must leave by 11:30 for piano lesson.</p>
+<p>Plan: Decide topics, make question list, start research.</p></div>`,
+text:`What is Oliver’s main purpose for writing this email?`,options:{A:`To tell Sophia about ancient Egypt`,B:`To arrange a meeting for their project`,C:`To ask Sophia to go to the library`}},
+{num:18,text:`Why does Maya need to leave early?`,options:{A:`She has a piano lesson`,B:`Her mom is picking her up`,C:`She doesn’t like group projects`}},
+
+{num:19,context:`<div class='bg-blue-50 p-4 rounded-lg mb-4'><h3 class='font-bold mb-2'>How to Grow a Vegetable Garden</h3>
+<p>Growing your own vegetables is fun and healthy! Follow these steps to start a small garden in your backyard or even on your balcony.</p>
+<ol><li><strong>Choose a sunny spot.</strong> Vegetables need at least six hours of sunlight each day.</li>
+<li><strong>Prepare the soil.</strong> Loosen dirt and mix compost or plant food.</li>
+<li><strong>Plant seeds.</strong> Make small holes, add seeds (lettuce, tomatoes, carrots), cover and water lightly.</li>
+<li><strong>Water and care.</strong> Water when soil feels dry, remove weeds.</li>
+<li><strong>Harvest and enjoy!</strong> Pick vegetables, wash and enjoy your own fresh food!</li></ol></div>`,
+text:`Why do vegetables need sunlight?`,options:{A:`To keep bugs away`,B:`To help them grow`,C:`To make them taste better`}},
+{num:20,text:`What should you add to the soil?`,options:{A:`Compost or plant food`,B:`Sand and stones`,C:`Extra water`}},
+{num:21,text:`When should you water the garden?`,options:{A:`When the soil feels dry`,B:`Every hour`,C:`Only at night`}},
+{num:22,text:`What do you do when vegetables are ready?`,options:{A:`Leave them to grow more`,B:`Pick and wash them`,C:`Move them to new soil`}},
+
+{num:23,context:`<div class='bg-blue-50 p-4 rounded-lg mb-4'><h3 class='font-bold mb-2'>The Science of Making Ice Cream</h3>
+<p>Ice cream forms when milk, cream, and sugar freeze together. Mixing salt with ice makes the temperature drop below 0°C. The salt makes ice melt faster, taking heat away from ingredients. This freezes the milk mixture into creamy ice cream.</p>
+<p>Try it: Put milk, sugar, and vanilla in a small bag. Place inside a larger bag with ice and salt. Shake for 5–10 minutes. Shaking keeps ice crystals small.</p></div>`,
+text:`Why does adding salt to ice make it colder?`,options:{A:`It adds flavor`,B:`It makes ice melt and take away heat`,C:`It turns ice into sugar`}},
+{num:24,text:`What do you put inside the small bag?`,options:{A:`Ice and salt`,B:`Milk, sugar, and vanilla`,C:`Chocolate chips`}},
+{num:25,text:`Why do we shake the bag?`,options:{A:`To mix the colors`,B:`To keep ice crystals small`,C:`To make bubbles`}},
+{num:26,text:`What is the main idea of the passage?`,options:{A:`Ice cream was first made in Italy`,B:`Ice cream can be made using science`,C:`Salt makes everything taste better`}},
+
+{num:27,context:`<div class='bg-blue-50 p-4 rounded-lg mb-4'><h3 class='font-bold mb-2'>Lisa and Grandma’s Secret Recipe</h3>
+<p>Every Sunday, Lisa visited Grandma to bake cookies together. One rainy morning, they used a special recipe from Grandma’s mother. Lisa measured flour, sugar, and butter carefully. Grandma added chocolate chips.</p>
+<p>“Why do you love baking?” asked Lisa. “Because it brings people together,” said Grandma. When the cookies were done, Grandma gave Lisa the recipe card: “This is yours now. Pass it on someday.” Lisa realized baking was about family and love that last forever.</p></div>`,
+text:`What did Lisa and Grandma do together?`,options:{A:`Planted flowers`,B:`Painted pictures`,C:`Baked cookies`}},
+{num:28,text:`Why was today’s recipe special?`,options:{A:`It used new ingredients`,B:`It was from Grandma’s mother`,C:`It was from a cookbook`}},
+{num:29,text:`What did Grandma say baking does?`,options:{A:`Makes people full`,B:`Brings people together`,C:`Helps people learn math`}},
+{num:30,text:`What did Lisa learn at the end?`,options:{A:`Baking is only for fun`,B:`Traditions and love are important`,C:`Recipes should be secret`}},
+
+{num:31,context:`<div class='bg-blue-50 p-4 rounded-lg mb-4'><h3 class='font-bold mb-2'>Marcus and the Chess Club</h3>
+<p>Marcus loved solving puzzles, so he joined Chess Club. After losing his first three games, he felt frustrated. Mr. Lopez, the coach, said, “Every loss is a lesson.” They reviewed his games, and Marcus learned strategy and patience. Weeks later, he finally won a match. He realized chess was about learning from mistakes.</p></div>`,
+text:`Why did Marcus join the Chess Club?`,options:{A:`He wanted to meet friends`,B:`He loved solving puzzles`,C:`He had to join for school`}},
+{num:32,text:`How did Marcus feel after his first few games?`,options:{A:`Excited`,B:`Bored`,C:`Frustrated`}},
+{num:33,text:`What helped Marcus improve?`,options:{A:`Watching online videos`,B:`Studying with Mr. Lopez`,C:`Playing only at home`}},
+{num:34,text:`What lesson did Marcus learn?`,options:{A:`Winning is the only goal`,B:`Strategy and patience are important`,C:`Chess is boring`}},
+
+{num:35,context:`<div class='bg-blue-50 p-4 rounded-lg mb-4'><h3 class='font-bold mb-2'>Why Some Frogs Glow</h3>
+<p>Some frogs can glow in the dark! Certain frogs give off green or blue light under ultraviolet light. Their skin has special chemicals that absorb and reflect light – this is called fluorescence. The glow helps frogs see each other at night and may confuse predators. Scientists first found glowing frogs in South America in 2017, and later in Asia and Africa.</p></div>`,
+text:`What causes frogs to glow?`,options:{A:`Fire inside their bodies`,B:`Chemicals in their skin`,C:`Tiny lights under water`}},
+{num:36,text:`Why might glowing help frogs?`,options:{A:`To keep warm`,B:`To find friends or mates`,C:`To attract insects`}},
+
+{num:37,context:`<div class='bg-blue-50 p-4 rounded-lg mb-4'><h3 class='font-bold mb-2'>The Story of Bubble Gum</h3>
+<p>In the early 1900s, a candy maker named Walter Diemer mixed sugar, flavor, and a rubbery ingredient until he made gum that could stretch without breaking. When he tried it, he blew the first bubble! He colored it pink because it was the only dye left in the factory. That’s why most bubble gum is pink today!</p></div>`,
+text:`Why is most bubble gum pink?`,options:{A:`Pink tastes the best`,B:`It was the only color Walter had`,C:`Kids asked for pink gum`}}
 ];
 
 // ========== HẾT PHẦN CẤU HÌNH ==========
